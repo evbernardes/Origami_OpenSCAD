@@ -1,5 +1,10 @@
 include <Kresling.scad>
 
+// how to set up animation:
+// Select "View -> Animate"
+// "Time" will vary from 0 to 1. Set FPS and Steps to change
+// How the animation goes
+
 // Input parameters
 R = 95.5; // Radius
 n = 8;    // Number of sides
