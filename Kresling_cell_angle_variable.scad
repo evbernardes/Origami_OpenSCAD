@@ -20,13 +20,16 @@ echo(b = b);
 echo(theta = theta);
 echo(l = l);
 
-//max_angle = acos(1-l*l/(2*R*R))-360/n; // considering constant l
-max_angle = acos(1-b*b/(2*R*R))-360/n; // considering constant b
+max_angle = acos(1-l*l/(2*R*R))-720/n; // considering constant l
+//max_angle = acos(1-b*b/(2*R*R))-360/n; // considering constant b
 echo(max_angle = max_angle);
 alpha = $t*max_angle;// measured angle 
 
-//z = sqrt(l*l - 2*R*R*(1 - cos(360/n + alpha))); // considering constant l
-z = sqrt(b*b - 2*R*R*(1 - cos(360/n + alpha))); // considering constant b                    
+z = sqrt(l*l - 2*R*R*(1 - cos(720/n + alpha)));// considering constant l
+//z = sqrt(b*b - 2*R*R*(1 - cos(360/n + alpha)));// considering constant b                    
 
 // draw tower
-draw_kresling_tower(R,n,z,alpha,thickness = 0.3,cells=3,single_side=false,facet_a=true,facet_b=true);
+draw_kresling_tower(R,n,z,alpha,thickness = 0.3,cells=3,
+                    single_side=false,
+                    facet_a=true,
+                    facet_b=true);

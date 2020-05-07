@@ -17,8 +17,9 @@ echo(l = l);
 
 alpha = 0; // measured angle
 
-//z = sqrt(l*l - 2*R*R*(1 - cos(360/n + alpha))); // considering constant l
-z = sqrt(b*b - 2*R*R*(1 - cos(360/n + alpha))); // considering constant b
+z = sqrt(l*l - 2*R*R*(1 - cos(720/n + alpha))); // considering constant l
+//z = sqrt(b*b - 2*R*R*(1 - cos(360/n + alpha))); // considering constant b
+echo(z = z);
 
 // draw tower
 draw_kresling_tower(R,n,z,alpha,thickness = 0.3,cells=1,single_side=false,facet_a=true,facet_b=true);

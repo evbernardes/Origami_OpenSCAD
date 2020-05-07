@@ -17,9 +17,8 @@ echo(b = b);
 echo(theta = theta);
 echo(l = l);
 
-//aux = (l*l - z*z)/(2*R*R); // considering constant l
-aux = (b*b - z*z)/(2*R*R); // considering constant b
-alpha = acos(1-aux)-360/n; // can be replaced by measured angle
+alpha=acos(1-(l*l-z*z)/(2*R*R))-720/n; // considering constant l
+//alpha=acos(1-(b*b-z*z)/(2*R*R))-360/n; // considering constant b
 
 // draw tower
 draw_kresling_tower(R,n,z,alpha,thickness=0.3,cells=1,
