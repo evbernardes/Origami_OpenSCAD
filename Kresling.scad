@@ -1,24 +1,18 @@
-function kp(R,n,z=0,i=0,angle=0) =
+function kresling_point(R,n,z=0,i=0,angle=0) =
     [R*cos(360*i/n + angle),R*sin(360*i/n + angle),z];
 
-function kfacet_a(R,n,z,i,alpha) = 
-    [kp(R,n,z=0,i=i,angle=0),
-     kp(R,n,z=z,i=i+1,angle=alpha),
-     kp(R,n,z=z,i=i+2,angle=alpha),
-     kp(R,n,z=0,i=i,angle=0),
-     kp(R,n,z=z,i=i+1,angle=alpha),
-     kp(R,n,z=z,i=i+2,angle=alpha)];
+function facet_a_points(R,n,z,i,alpha) = 
+    [kresling_point(R,n,z=0,i=i,angle=0),
+     kresling_point(R,n,z=z,i=i+1,angle=alpha),
+     kresling_point(R,n,z=z,i=i+2,angle=alpha)];
 
-function kfacet_b(R,n,z,i,alpha) = 
-    [kp(R,n,z=0,i=i,angle=0),
-     kp(R,n,z=0,i=i+1,angle=0),
-     kp(R,n,z=z,i=i+2,angle=alpha),
-     kp(R,n,z=0,i=i,angle=0),
-     kp(R,n,z=0,i=i+1,angle=0),
-     kp(R,n,z=z,i=i+2,angle=alpha)];
+function facet_b_points(R,n,z,i,alpha) = 
+    [kresling_point(R,n,z=0,i=i,angle=0),
+     kresling_point(R,n,z=0,i=i+1,angle=0),
+     kresling_point(R,n,z=z,i=i+2,angle=alpha)];
      
 module draw_facet(F){
-    polyhedron(points=[F[0],F[1],F[2],F[3],F[4],F[5]],
+    polyhedron(points=[F[0],F[1],F[2],F[0],F[1],F[2]],
            faces = [[1,3,2],
                     [4,6,5],
                     [1,3,6,4],
@@ -31,13 +25,13 @@ module draw_kresling_tower(R,n,z,alpha,thickness=0.3,no_of_cells=1,test=false){
         rotate([0, 0, alpha*(cell-1)]) translate([0,0,z*(cell-1)])
         for (i=[0:test ? 0 : n-1]){
            hull(){
-                draw_facet(kfacet_a(R-thickness/2,n,z,i,alpha));
-                draw_facet(kfacet_a(R+thickness/2,n,z,i,alpha));
+                draw_facet(facet_a_points(R-thickness/2,n,z,i,alpha));
+                draw_facet(facet_a_points(R+thickness/2,n,z,i,alpha));
            };
            if(!test){
                hull(){
-                    draw_facet(kfacet_b(R-thickness/2,n,z,i,alpha));
-                    draw_facet(kfacet_b(R+thickness/2,n,z,i,alpha));
+                    draw_facet(facet_b_points(R-thickness/2,n,z,i,alpha));
+                    draw_facet(facet_b_points(R+thickness/2,n,z,i,alpha));
                };};
         };
     };

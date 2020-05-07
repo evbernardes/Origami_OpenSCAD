@@ -19,4 +19,4 @@ l = 2*R*cos(theta*(1-lambda));
 z = sqrt(l*l - 2*R*R*(1 - cos(360/n + alpha)));                    
 
 // draw tower
-draw_kresling_tower(R,n,z,alpha,thickness = 0.3, no_of_cells=2);
+draw_kresling_tower(R,n,z,alpha,thickness = 10.3, no_of_cells=2);
