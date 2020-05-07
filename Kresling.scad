@@ -1,26 +1,44 @@
-function kp(R,n,z=0,i=0,angle=0,cell = 1) =
-    [R*cos(360*i/n + angle),R*sin(360*i/n + angle),z*(cell)];
+function kp(R,n,z=0,i=0,angle=0) =
+    [R*cos(360*i/n + angle),R*sin(360*i/n + angle),z];
 
-function kfacet_a(R,n,z,i,alpha,cell = 1) = 
-    [kp(R+thick_neg,n,z=z*(cell-1),i=i,angle=alpha*(cell-1)),
-     kp(R+thick_neg,n,z=z*cell,i=i+1,angle=alpha*cell),
-     kp(R+thick_neg,n,z=z*cell,i=i+2,angle=alpha*cell),
-     kp(R+thick_pos,n,z=z*(cell-1),i=i,angle=alpha*(cell-1)),
-     kp(R+thick_pos,n,z=z*cell,i=i+1,angle=alpha*cell),
-     kp(R+thick_pos,n,z=z*cell,i=i+2,angle=alpha*cell)];
+function kfacet_a(R,n,z,i,alpha) = 
+    [kp(R,n,z=0,i=i,angle=0),
+     kp(R,n,z=z,i=i+1,angle=alpha),
+     kp(R,n,z=z,i=i+2,angle=alpha),
+     kp(R,n,z=0,i=i,angle=0),
+     kp(R,n,z=z,i=i+1,angle=alpha),
+     kp(R,n,z=z,i=i+2,angle=alpha)];
 
-function kfacet_b(R,n,z,i,alpha,cell = 1) = 
-    [kp(R+thick_neg,n,z=z*(cell-1),i=i,angle=alpha*(cell-1)),
-     kp(R+thick_neg,n,z=z*(cell-1),i=i+1,angle=alpha*(cell-1)),
-     kp(R+thick_neg,n,z=z*cell,i=i+2,angle=alpha*cell),
-     kp(R+thick_pos,n,z=z*(cell-1),i=i,angle=alpha*(cell-1)),
-     kp(R+thick_pos,n,z=z*(cell-1),i=i+1,angle=alpha*(cell-1)),
-     kp(R+thick_pos,n,z=z*cell,i=i+2,angle=alpha*cell)];
+function kfacet_b(R,n,z,i,alpha) = 
+    [kp(R,n,z=0,i=i,angle=0),
+     kp(R,n,z=0,i=i+1,angle=0),
+     kp(R,n,z=z,i=i+2,angle=alpha),
+     kp(R,n,z=0,i=i,angle=0),
+     kp(R,n,z=0,i=i+1,angle=0),
+     kp(R,n,z=z,i=i+2,angle=alpha)];
      
-module plot_facet(F)
-    {polyhedron(points=[F[0],F[1],F[2],F[3],F[4],F[5]],
-           faces = [[1,2,3],
-                    [4,5,6],
-                    [1,4,6,3],
-                    [1,4,5,2],
-                    [2,5,6,3]]);};
+module draw_facet(F){
+    polyhedron(points=[F[0],F[1],F[2],F[3],F[4],F[5]],
+           faces = [[1,3,2],
+                    [4,6,5],
+                    [1,3,6,4],
+                    [1,2,5,4],
+                    [2,3,6,5]]);};
+
+module draw_kresling_tower(R,n,z,alpha,thickness=0.3,no_of_cells=1,test=false){
+    
+    for (cell=[1:no_of_cells]){
+        rotate([0, 0, alpha*(cell-1)]) translate([0,0,z*(cell-1)])
+        for (i=[0:test ? 0 : n-1]){
+           hull(){
+                draw_facet(kfacet_a(R-thickness/2,n,z,i,alpha));
+                draw_facet(kfacet_a(R+thickness/2,n,z,i,alpha));
+           };
+           if(!test){
+               hull(){
+                    draw_facet(kfacet_b(R-thickness/2,n,z,i,alpha));
+                    draw_facet(kfacet_b(R+thickness/2,n,z,i,alpha));
+               };};
+        };
+    };
+}

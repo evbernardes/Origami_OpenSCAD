@@ -4,23 +4,15 @@ include <Kresling.scad>
 R = 95.5; // Radius
 n = 8;    // Number of sides
 lambda = 0.5;
-thick_pos = 0.03; // positive, outward offset for thickness
-thick_neg = -thick_pos; // negative, inward offset for thickness
 
-alpha = 50; // measured angle                                    
-no_of_cells = 3; // number of cells/stages
+alpha = 50; // measured angle               
 
 theta = 90 * (1-2/n);
 l = 2*R*cos(theta*(1-lambda));
 
 // considering constant l
-z = sqrt(l*l - 2*R*R*(1 - cos(360/n + alpha)));                    
+z = sqrt(l*l - 2*R*R*(1 - cos(360/n + alpha)));
 
-for (cell=[1:no_of_cells]){
-    for (i=[0:n-1]){
-       plot_facet(kfacet_a(R,n,z,i,alpha,cell=cell));
-       plot_facet(kfacet_b(R,n,z,i,alpha,cell=cell));
-    };
-};
-
+// draw tower
+draw_kresling_tower(R,n,z,alpha,thickness = 0.3,no_of_cells=3);
 
