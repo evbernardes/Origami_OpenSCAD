@@ -9,14 +9,24 @@ include <Kresling.scad>
 R = 95.5; // Radius
 n = 10;    // Number of sides
 lambda = 0.5;
-
-max_angle = 67;
-alpha = $t*max_angle;// measured angle                                    
+                                   
 theta = 90 * (1-2/n);
 l = 2*R*cos(theta*(1-lambda));
+a = 2*R*sin(180/n);
+b = sqrt(l*l + a*a - 2*l*a*cos(lambda*theta));
 
-// considering constant l
-z = sqrt(l*l - 2*R*R*(1 - cos(360/n + alpha)));                    
+echo(a = a);
+echo(b = b);
+echo(theta = theta);
+echo(l = l);
+
+//max_angle = acos(1-l*l/(2*R*R))-360/n; // considering constant l
+max_angle = acos(1-b*b/(2*R*R))-360/n; // considering constant b
+echo(max_angle = max_angle);
+alpha = $t*max_angle;// measured angle 
+
+//z = sqrt(l*l - 2*R*R*(1 - cos(360/n + alpha))); // considering constant l
+z = sqrt(b*b - 2*R*R*(1 - cos(360/n + alpha))); // considering constant b                    
 
 // draw tower
-draw_kresling_tower(R,n,z,alpha,thickness = 10.3, no_of_cells=2);
+draw_kresling_tower(R,n,z,alpha,thickness = 0.3,cells=3,single_side=false,facet_a=true,facet_b=true);
