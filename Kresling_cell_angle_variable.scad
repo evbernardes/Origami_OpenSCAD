@@ -32,7 +32,8 @@ lambda = 0.5;
 thick_pos = 0.03; // positive, outward offset for thickness
 thick_neg = -thick_pos; // negative, inward offset for thickness
 
-alpha = $t*67; // measured angle                                    
+max_angle = 67;
+alpha = $t*max_angle; // measured angle                                    
 no_of_cells = 2; // number of cells/stages
 
 theta = 90 * (1-2/n);
