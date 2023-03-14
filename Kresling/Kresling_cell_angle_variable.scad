@@ -7,8 +7,8 @@ include <Kresling.scad>
 
 // Input parameters
 R = 95.5; // Radius
-n = 10;    // Number of sides
-lambda = 0.5;
+n = 8;    // Number of sides
+lambda = 0.7;
                                    
 theta = 90 * (1-2/n);
 l = 2*R*cos(theta*(1-lambda));
@@ -29,7 +29,7 @@ z = sqrt(l*l - 2*R*R*(1 - cos(720/n + alpha)));// considering constant l
 //z = sqrt(b*b - 2*R*R*(1 - cos(360/n + alpha)));// considering constant b                    
 
 // draw tower
-draw_kresling_tower(R,n,z,alpha,thickness = 0.3,cells=3,
+draw_kresling_tower(R,n,z,alpha,thickness = 0.3,cells=1,
                     single_side=false,
                     facet_a=true,
                     facet_b=true);
